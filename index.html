@@ -1,0 +1,194 @@
+﻿<html>
+<head>
+<link rel="stylesheet" href="style.css"/>
+<style>
+ 
+</style>
+<script>
+var  tab = [];
+var dlugosc = 1;
+
+    function init(){
+        
+        var p = document.getElementById("tabela")
+            p.style.position = "absolute"
+            p.style.width = "850px";
+             p.style.height = "850px";
+            p.style.border = "solid black 5px "
+        
+            for(i =0; i<17; i++){
+                tab[i]=[]
+                for(j =0; j<17 ; j++)
+            {
+                
+            tab[i][j] = 0;
+                var b = document.createElement("div");
+                b.style.width = "50px";
+                b.style.height = "50px";
+                b.style.marginTop= 50  * i  +"px"
+                b.style.marginLeft= 50 * j +"px"
+                //b.style.border = "solid black 1px "
+                b.style.position = "absolute"
+                b.style.backgroundColor = "white"
+                b.id = "x"+j+"y"+i;
+                
+                p.appendChild(b);
+                
+
+            }
+     
+}
+       
+var wunsz = document.getElementById("x8y8");
+        wunsz.style.backgroundColor = "green"
+        jab()
+       
+    }
+    var jabx 
+    var jaby
+function jab(){
+    jabx =  Math.floor((Math.random() * 17)); 
+      jaby =  Math.floor((Math.random() * 17) );
+document.getElementById("x"+jabx+"y"+jaby).style.background = "url('owoc.png')";
+        
+        tab[jabx][jaby] = -2
+}
+var kl=0
+    var  w = 8;
+       var q =8;
+ var interval 
+    function klawa(e){
+     
+       
+     var klawisz = 0
+        var c;
+        if(e.keyCode) c=e.keyCode; else c=e.which
+
+          
+       
+         if(c == 115 && kl!=119 ){ 
+		 kl =115
+         clearInterval(interval);
+              interval = setInterval(function(){ 
+			  if(document.getElementById("x"+w+"y"+q) == null){
+		clearInterval(interval);
+		koniec()
+		}
+         document.getElementById("x"+w+"y"+q).style.backgroundColor = "white"
+            q++  
+			if(tab[w][q]>0)
+			koniec()
+            tab[w][q] = 1;
+
+         document.getElementById("x"+w+"y"+q).style.backgroundColor = "green"
+		
+		wielkosc();
+		owoc()
+		
+      }, 120)
+	
+         }        
+         else if(c == 119 && kl!=115){
+		 kl=119
+            clearInterval(interval);
+              interval = setInterval(function(){ 
+			  if(document.getElementById("x"+w+"y"+q) == null){
+		clearInterval(interval);
+		koniec()
+		}
+            document.getElementById("x"+w+"y"+q).style.backgroundColor = "white"
+			
+             q-- 
+			 if(tab[w][q]>0)
+			 koniec()
+             tab[w][q] = 1;
+         document.getElementById("x"+w+"y"+q).style.backgroundColor = "green"
+wielkosc();
+owoc()
+
+}, 120)
+         }
+         if(c == 100 && kl!=97){
+		 console.log(kl)
+		 kl =100
+            clearInterval(interval);
+              interval = setInterval(function(){ 
+			  if(document.getElementById("x"+w+"y"+q) == null){
+		clearInterval(interval);
+		koniec()
+		}
+          document.getElementById("x"+w+"y"+q).style.backgroundColor = "white"  
+              w++ 
+				console.log(tab[w][q])
+			  if(tab[w][q]>0)
+			  koniec()
+              tab[w][q] = 1;
+         document.getElementById("x"+w+"y"+q).style.backgroundColor = "green"
+          wielkosc();
+		  owoc()
+		  
+         }, 120)
+         }  
+         else if(c == 97 && kl!=100){
+		 kl=97
+clearInterval(interval);
+              interval = setInterval(function(){ 
+			  if(document.getElementById("x"+w+"y"+q) == null){
+		clearInterval(interval);
+		koniec()
+		}
+         document.getElementById("x"+w+"y"+q).style.backgroundColor = "white"
+            w-- 
+			if(tab[w][q]>0)
+			koniec()
+            tab[w][q] = 1;
+         document.getElementById("x"+w+"y"+q).style.backgroundColor = "green"
+          wielkosc();
+		  owoc()
+		  
+         }, 120)
+         }   
+        
+ }
+ var pkt
+ function owoc() {
+ if(w==jabx && q==jaby){
+            document.getElementById("x"+w+"y"+q).style.background = "none";
+			dlugosc++
+			pkt = dlugosc - 1
+			document.getElementById("pkt").innerHTML = "Punkty: " + pkt;
+            
+            jab()
+			}
+			}
+ var ilosc =17;
+function wielkosc() {
+                for (i = 0; i < ilosc; i++) {
+                    for (j = 0; j < ilosc; j++) {
+                        if (tab[i][j] > 0)
+                            tab[i][j]++;
+
+
+                        if (tab[i][j] <= dlugosc + 1 && tab[i][j] >= 1)
+                            document.getElementById("x" + i + "y" + j).style.backgroundColor = "green";
+                        else if (tab[i][j] >= 0)
+                            document.getElementById("x" + i + "y" + j).style.backgroundColor = "white";
+
+                        if (tab[i][j] > dlugosc )
+                            tab[i][j] = 0;
+                    }
+                }
+            }
+			function koniec() {
+			var r = confirm("Porazka! Aby rozpoczac od nowa kliknij OK");
+			if (r == true) {
+			location.reload();
+			} 
+	}
+</script>
+</head>
+<body onload="init()"  onkeypress="klawa(event)"  >
+<div id="pkt" style="position: absolute; right: 10px">Punkty: 0</div>
+<div id="tabela"></div>
+</body>
+</html>
